@@ -61,6 +61,8 @@ If the system loses power during an update, there are two cases that will need t
 - Power is lost during the execution of `ArtifactCommit_Leave`, in which case the `ArtifactCommit_Leave` scripts will be rerun, on the newly installed partition, at startup before resuming normal execution with the successfully installed update.
 Since these scripts can potentially be rerun in the event of a powerloss, the two script types must be written to be idempotent. That is, each script in any of these states must be written so that it behaves correctly even if some, or all, of its steps have already been partially or completely carried out, since a powerloss in any of these two states will cause all of the scripts to be rerun. Please be aware though, that this is strictly limited to `ArtifactFailure_Enter`, `ArtifactFailure_Leave` and `ArtifactCommit_Leave`, no other scripts will ever be rerun by the mender-client in case of a powerloss or a crash.
 
+## State script logging
+In the event that a state-script writes to stdout, this data stream is captured by the mender-client, and shown in the mender logs, with the only exception that output greater than 10KiB will be truncated.
 
 ## Retry-later
 
